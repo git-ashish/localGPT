@@ -36,7 +36,7 @@ services:
     volumes:
       - ./lancedb:/app/lancedb
       - ./index_store:/app/index_store
-      - ./shared_uploads:/app/shared_uploads
+      - ./shared_uploads:/app/backend/shared_uploads
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8001/models"]
       interval: 30s
@@ -60,7 +60,7 @@ services:
       - OLLAMA_HOST=${OLLAMA_HOST:-http://172.18.0.1:11434}
     volumes:
       - ./backend:/app/backend
-      - ./shared_uploads:/app/shared_uploads
+      - ./shared_uploads:/app/backend/shared_uploads
     depends_on:
       rag-api:
         condition: service_healthy
