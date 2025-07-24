@@ -26,6 +26,9 @@ AGENT_MODE = os.getenv("RAG_CONFIG_MODE", "default")
 RAG_AGENT = get_agent(AGENT_MODE)
 INDEXING_PIPELINE = get_indexing_pipeline(AGENT_MODE)
 
+# Backend url
+BACKEND_BASE_URL = os.getenv("BACKEND_API_URL", "http://backend:8000")
+
 # --- Global Singleton for the RAG Agent ---
 # The agent is initialized once when the server starts.
 # This avoids reloading all the models on every request.
@@ -184,7 +187,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
             if session_id:
                 try:
                     # Check if this is the first message by calling the backend server
-                    backend_url = f"http://localhost:8000/sessions/{session_id}"
+                    backend_url = f"{BACKEND_BASE_URL}/sessions/{session_id}"
                     session_resp = requests.get(backend_url)
                     if session_resp.status_code == 200:
                         session_data = session_resp.json()
@@ -343,7 +346,7 @@ class AdvancedRagApiHandler(http.server.BaseHTTPRequestHandler):
             if session_id:
                 try:
                     # Check if this is the first message by calling the backend server
-                    backend_url = f"http://localhost:8000/sessions/{session_id}"
+                    backend_url = f"{BACKEND_BASE_URL}/sessions/{session_id}"
                     session_resp = requests.get(backend_url)
                     if session_resp.status_code == 200:
                         session_data = session_resp.json()

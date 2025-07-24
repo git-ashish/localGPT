@@ -32,6 +32,7 @@ services:
       # Use host Ollama by default, or containerized Ollama if enabled
       - OLLAMA_HOST=${OLLAMA_HOST:-http://host.docker.internal:11434}
       - NODE_ENV=production
+      - BACKEND_API_URL=http://backend:8000
     volumes:
       - ./lancedb:/app/lancedb
       - ./index_store:/app/index_store
