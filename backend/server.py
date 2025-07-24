@@ -591,7 +591,7 @@ Respond with exactly one word: USE_RAG or DIRECT_LLM"""
         source_docs: List[dict] = []
 
         # Build payload for RAG API
-        rag_api_url = "http://localhost:8001/chat"
+        rag_api_url = f"{os.getenv('RAG_API_URL', 'http://rag-api:8001')}/chat"
         table_name = f"text_pages_{idx_ids[-1]}" if idx_ids else None
         payload: Dict[str, Any] = {
             "query": message,
@@ -706,7 +706,7 @@ Respond with exactly one word: USE_RAG or DIRECT_LLM"""
 
             print(f"Found {len(file_paths)} documents to index. Sending to RAG API...")
             
-            rag_api_url = "http://localhost:8001/index"
+            rag_api_url = f"{os.getenv('RAG_API_URL', 'http://rag-api:8001')}/index"
             rag_response = requests.post(rag_api_url, json={"file_paths": file_paths, "session_id": session_id})
 
             if rag_response.status_code == 200:
@@ -914,7 +914,7 @@ Respond with exactly one word: USE_RAG or DIRECT_LLM"""
             # we'll inject later when we build config_override
 
             # Delegate to advanced RAG API same as session indexing
-            rag_api_url = "http://localhost:8001/index"
+            rag_api_url = f"{os.getenv('RAG_API_URL', 'http://rag-api:8001')}/index"
             import requests, json as _json
             # Use the index's dedicated LanceDB table so retrieval matches
             table_name = index.get("vector_table_name")
